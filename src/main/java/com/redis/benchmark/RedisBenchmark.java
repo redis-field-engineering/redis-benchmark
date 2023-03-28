@@ -14,12 +14,14 @@ import java.util.concurrent.TimeUnit;
 @Measurement(iterations = 1, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class RedisBenchmark {
-    private JedisCommands jedisCommands;
+    private static JedisCommands jedisCommands;
     private static Integer jedisGetCount = 0;
     private static Integer jedisSetCount = 0;
 
     @Setup
     public void setup() {
+        System.out.println("------------------- Setup");
+
         Util.createOneMillionOfKeys();
 
         jedisCommands = JedisConnectionManagement.getCommands();
@@ -35,8 +37,7 @@ public class RedisBenchmark {
         try {
             result = jedisCommands.get(String.format(Util.KeyPrefix, jedisGetCount));
         } catch (Exception e) {
-            e.printStackTrace();
-            jedisCommands = JedisConnectionManagement.getCommands();
+            System.err.println("\n------------------- Failed GET Command\n" + e.getMessage());
         }
         return result;
     }
@@ -48,9 +49,13 @@ public class RedisBenchmark {
         try {
             result = jedisCommands.set(String.format("JedisSetTest%s", jedisSetCount), jedisSetCount.toString());
         } catch (Exception e) {
-            e.printStackTrace();
-            jedisCommands = JedisConnectionManagement.getCommands();
+            System.err.println("\n------------------- Failed SET Command\n" + e.getMessage());
         }
         return result;
+    }
+
+    @TearDown
+    public void tearDown() {
+        System.out.println("------------------- TearDown");
     }
 }
