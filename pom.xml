@@ -8,7 +8,7 @@
     <artifactId>redis-benchmark</artifactId>
     <name>Redis Benchmark</name>
     <description>Benchmark for Redis Java clients</description>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1.0</version>
     <url>https://github.com/redis-field-engineering/redis-benchmark</url>
     <inceptionYear>2023</inceptionYear>
 
