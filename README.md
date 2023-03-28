@@ -33,7 +33,7 @@ java -DREDIS_BENCHMARK_CONFIG=benchmark.properties -jar redis-benchmark.jar -wi 
 
 ## [`jmh`](https://github.com/openjdk/jmh) command line options
 ```bash
-$ java -jar redis-benchmark.jar -h
+java -jar redis-benchmark.jar -h
 
 Usage: java -jar ... [regexp*] [options]
  [opt] means optional argument.
