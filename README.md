@@ -1,10 +1,10 @@
 # redis-benchmark
 
 ## Prerequisites
-<br>• Java Runtime Environment ([OpenJRE](https://openjdk.java.net/install/) or OracleJRE)
+Java Runtime Environment ([OpenJRE](https://openjdk.java.net/install/) or OracleJRE)
 
 ## Download
-<br>Download the [latest release](https://github.com/redis-field-engineering/redis-benchmark/releases/latest)
+Download the [latest release](https://github.com/redis-field-engineering/redis-benchmark/releases/latest)
 
 ## Configuration
 Sample benchmark.properties for standalone Redis connection:
