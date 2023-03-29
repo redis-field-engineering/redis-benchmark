@@ -34,7 +34,7 @@ benchmark.key.data=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 ## Usage
 Run the command with the parameters below to test connectivity to REDIS, and also generate the keys for executing **GET** benchmarks:
 ```bash
-java -DREDIS_BENCHMARK_CONFIG=benchmark.properties -jar redis-benchmark.jar -wi 1 -i 1 -t 1 -f 0
+java -DREDIS_BENCHMARK_CONFIG=benchmark.properties -jar redis-benchmark.jar -wi 1 -i 1 -t 1 -f 1
 ```
 <details><summary>Expected output:</summary>
 <p>

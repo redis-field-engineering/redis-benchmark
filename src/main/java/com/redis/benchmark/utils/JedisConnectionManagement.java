@@ -24,18 +24,10 @@ public final class JedisConnectionManagement {
         Set<HostAndPort> hostAndPorts = BenchmarkConfiguration.get().getRedisHostAndPorts();
         int index = 0;
 
-        String user = BenchmarkConfiguration.get().getRedisUser();
-        if (user != null && !user.isEmpty())
-            user = BenchmarkConfiguration.get().getRedisUser();
-
-        String password = BenchmarkConfiguration.get().getRedisPassword();
-        if (password != null && !password.isEmpty())
-            password = BenchmarkConfiguration.get().getRedisPassword();
-
         try {
             JedisClientConfig jedisClientConfig = DefaultJedisClientConfig.builder()
-                    .user(user)
-                    .password(password)
+                    .user(BenchmarkConfiguration.get().getRedisUser())
+                    .password(BenchmarkConfiguration.get().getRedisPassword())
                     .clientName("RedisBenchmark")
                     .build();
 

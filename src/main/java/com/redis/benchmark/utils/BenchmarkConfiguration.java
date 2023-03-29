@@ -69,12 +69,12 @@ public final class BenchmarkConfiguration {
 
     public String getRedisUser() {
         Properties properties = getProperties();
-        return properties.getProperty("redis.user", "default");
+        return properties.getProperty("redis.user");
     }
 
     public String getRedisPassword() {
         Properties properties = getProperties();
-        return properties.getProperty("redis.password", "");
+        return properties.getProperty("redis.password");
     }
 
     String getKeyContentData() {
