@@ -30,8 +30,179 @@ benchmark.key.data=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 ## Usage
 Run the command with the parameters below to test connectivity to REDIS, and also generate the keys for executing **GET** benchmarks:
 ```bash
-java -DREDIS_BENCHMARK_CONFIG=benchmark.properties -jar redis-benchmark.jar -wi 1 -i 1 -t 1 -f 1
+java -DREDIS_BENCHMARK_CONFIG=benchmark.properties -jar redis-benchmark.jar -wi 1 -i 1 -t 1 -f 0
 ```
+<details><summary>Expected output:</summary>
+<p>
+
+```bash
+# JMH version: 1.36
+# VM version: JDK 11.0.18, OpenJDK 64-Bit Server VM, 11.0.18+10-post-Ubuntu-0ubuntu118.04.1
+# VM invoker: /usr/lib/jvm/java-11-openjdk-amd64/bin/java
+# VM options: -DREDIS_BENCHMARK_CONFIG=benchmark.properties
+# Blackhole mode: full + dont-inline hint (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 1 iterations, 10 s each
+# Measurement: 1 iterations, 1000 ms each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: com.redis.benchmark.RedisBenchmark.jedisSimpleGet
+
+# Run progress: 0.00% complete, ETA 00:00:44
+# Fork: N/A, test runs in the host VM
+# *** WARNING: Non-forked runs may silently omit JVM options, mess up profilers, disable compiler hints, etc. ***
+# *** WARNING: Use non-forked runs only for debugging purposes, not for actual performance runs. ***
+# Warmup Iteration   1:
+------------------- Setup
+[com.redis.benchmark.RedisBenchmark.jedisSimpleGet-jmh-worker-1] WARN redis.clients.jedis.providers.MultiClusterPooledConnectionProvider - 2023-03-29T02:29:31.907843Z[Etc/UTC]: Retry 'cluster:1:127.0.0.1:14002', waiting PT0.5S until attempt '1'. Last attempt failed with exception 'redis.clients.jedis.exceptions.JedisConnectionException: java.net.SocketTimeoutException: Read timed out'.
+[com.redis.benchmark.RedisBenchmark.jedisSimpleGet-jmh-worker-1] WARN redis.clients.jedis.providers.MultiClusterPooledConnectionProvider - 2023-03-29T02:29:34.415498Z[Etc/UTC]: Retry 'cluster:1:127.0.0.1:14002', waiting PT1S until attempt '2'. Last attempt failed with exception 'redis.clients.jedis.exceptions.JedisConnectionException: java.net.SocketTimeoutException: Read timed out'.
+[com.redis.benchmark.RedisBenchmark.jedisSimpleGet-jmh-worker-1] ERROR redis.clients.jedis.providers.MultiClusterPooledConnectionProvider - 2023-03-29T02:29:37.421032Z[Etc/UTC]: Retry 'cluster:1:127.0.0.1:14002' recorded a failed retry attempt. Number of retry attempts: '3'. Giving up. Last exception was: 'redis.clients.jedis.exceptions.JedisConnectionException: java.net.SocketTimeoutException: Read timed out'.
+[com.redis.benchmark.RedisBenchmark.jedisSimpleGet-jmh-worker-1] ERROR redis.clients.jedis.providers.MultiClusterPooledConnectionProvider - 2023-03-29T02:29:37.421603Z[Etc/UTC]: CircuitBreaker 'cluster:1:127.0.0.1:14002' recorded an error: 'redis.clients.jedis.exceptions.JedisConnectionException: java.net.SocketTimeoutException: Read timed out'. Elapsed time: 7542 ms
+[com.redis.benchmark.RedisBenchmark.jedisSimpleGet-jmh-worker-1] ERROR redis.clients.jedis.providers.MultiClusterPooledConnectionProvider - 2023-03-29T02:29:37.423007Z[Etc/UTC]: CircuitBreaker 'cluster:1:127.0.0.1:14002' exceeded failure rate threshold. Current failure rate: 100.0
+[com.redis.benchmark.RedisBenchmark.jedisSimpleGet-jmh-worker-1] WARN redis.clients.jedis.providers.MultiClusterPooledConnectionProvider - 2023-03-29T02:29:37.427496Z[Etc/UTC]: CircuitBreaker 'cluster:1:127.0.0.1:14002' changed state from CLOSED to OPEN
+<failure>
+
+redis.clients.jedis.exceptions.JedisConnectionException: java.net.SocketTimeoutException: Read timed out
+	at redis.clients.jedis.util.RedisInputStream.ensureFill(RedisInputStream.java:208)
+	at redis.clients.jedis.util.RedisInputStream.readByte(RedisInputStream.java:46)
+	at redis.clients.jedis.Protocol.process(Protocol.java:126)
+	at redis.clients.jedis.Protocol.read(Protocol.java:192)
+	at redis.clients.jedis.Connection.readProtocolWithCheckingBroken(Connection.java:320)
+	at redis.clients.jedis.Connection.getOne(Connection.java:302)
+	at redis.clients.jedis.Connection.executeCommand(Connection.java:127)
+	at redis.clients.jedis.executors.CircuitBreakerCommandExecutor.handleExecuteCommand(CircuitBreakerCommandExecutor.java:65)
+	at redis.clients.jedis.executors.CircuitBreakerCommandExecutor.lambda$executeCommand$0(CircuitBreakerCommandExecutor.java:48)
+	at io.github.resilience4j.retry.Retry.lambda$decorateSupplier$2(Retry.java:213)
+	at io.github.resilience4j.circuitbreaker.CircuitBreaker.lambda$decorateSupplier$4(CircuitBreaker.java:197)
+	at io.github.resilience4j.core.SupplierUtils.lambda$recover$5(SupplierUtils.java:119)
+	at redis.clients.jedis.executors.CircuitBreakerCommandExecutor.executeCommand(CircuitBreakerCommandExecutor.java:55)
+	at redis.clients.jedis.UnifiedJedis.executeCommand(UnifiedJedis.java:180)
+	at redis.clients.jedis.UnifiedJedis.get(UnifiedJedis.java:602)
+	at com.redis.benchmark.utils.Util.createOneMillionOfKeys(Util.java:15)
+	at com.redis.benchmark.RedisBenchmark.setup(RedisBenchmark.java:25)
+	at com.redis.benchmark.jmh_generated.RedisBenchmark_jedisSimpleGet_jmhTest._jmh_tryInit_f_redisbenchmark0_0(RedisBenchmark_jedisSimpleGet_jmhTest.java:338)
+	at com.redis.benchmark.jmh_generated.RedisBenchmark_jedisSimpleGet_jmhTest.jedisSimpleGet_Throughput(RedisBenchmark_jedisSimpleGet_jmhTest.java:71)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:475)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:458)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.base/java.net.SocketInputStream.socketRead0(Native Method)
+	at java.base/java.net.SocketInputStream.socketRead(SocketInputStream.java:115)
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:168)
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:140)
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:126)
+	at redis.clients.jedis.util.RedisInputStream.ensureFill(RedisInputStream.java:202)
+	... 30 more
+
+
+# JMH version: 1.36
+# VM version: JDK 11.0.18, OpenJDK 64-Bit Server VM, 11.0.18+10-post-Ubuntu-0ubuntu118.04.1
+# VM invoker: /usr/lib/jvm/java-11-openjdk-amd64/bin/java
+# VM options: -DREDIS_BENCHMARK_CONFIG=benchmark.properties
+# Blackhole mode: full + dont-inline hint (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 1 iterations, 10 s each
+# Measurement: 1 iterations, 1000 ms each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: com.redis.benchmark.RedisBenchmark.jedisSimpleSet
+
+# Run progress: 25.00% complete, ETA 00:00:23
+# Fork: N/A, test runs in the host VM
+# *** WARNING: Non-forked runs may silently omit JVM options, mess up profilers, disable compiler hints, etc. ***
+# *** WARNING: Use non-forked runs only for debugging purposes, not for actual performance runs. ***
+# Warmup Iteration   1:
+------------------- Setup
+[com.redis.benchmark.RedisBenchmark.jedisSimpleSet-jmh-worker-1] ERROR redis.clients.jedis.providers.MultiClusterPooledConnectionProvider - 2023-03-29T02:29:37.433697Z[Etc/UTC]: CircuitBreaker 'cluster:1:127.0.0.1:14002' recorded a call which was not permitted.
+[com.redis.benchmark.RedisBenchmark.jedisSimpleSet-jmh-worker-1] WARN redis.clients.jedis.providers.MultiClusterPooledConnectionProvider - 2023-03-29T02:29:37.434736Z[Etc/UTC]: CircuitBreaker 'cluster:1:127.0.0.1:14002' changed state from OPEN to FORCED_OPEN
+[com.redis.benchmark.RedisBenchmark.jedisSimpleSet-jmh-worker-1] WARN redis.clients.jedis.providers.MultiClusterPooledConnectionProvider - CircuitBreaker changed the connection pool from 'cluster:1:127.0.0.1:14002' to 'cluster:2:127.0.0.1:14003'
+7.828 ops/ms
+Iteration   1:
+------------------- TearDown
+7.960 ops/ms
+
+Result "com.redis.benchmark.RedisBenchmark.jedisSimpleSet":
+  7.960 ops/ms
+
+
+# JMH version: 1.36
+# VM version: JDK 11.0.18, OpenJDK 64-Bit Server VM, 11.0.18+10-post-Ubuntu-0ubuntu118.04.1
+# VM invoker: /usr/lib/jvm/java-11-openjdk-amd64/bin/java
+# VM options: -DREDIS_BENCHMARK_CONFIG=benchmark.properties
+# Blackhole mode: full + dont-inline hint (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 1 iterations, 10 s each
+# Measurement: 1 iterations, 1000 ms each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: com.redis.benchmark.RedisBenchmark.jedisSimpleGet
+
+# Run progress: 50.00% complete, ETA 00:00:18
+# Fork: N/A, test runs in the host VM
+# *** WARNING: Non-forked runs may silently omit JVM options, mess up profilers, disable compiler hints, etc. ***
+# *** WARNING: Use non-forked runs only for debugging purposes, not for actual performance runs. ***
+# Warmup Iteration   1:
+------------------- Setup
+0.124 ms/op
+Iteration   1:
+------------------- TearDown
+0.119 ms/op
+
+Result "com.redis.benchmark.RedisBenchmark.jedisSimpleGet":
+  0.119 ms/op
+
+
+# JMH version: 1.36
+# VM version: JDK 11.0.18, OpenJDK 64-Bit Server VM, 11.0.18+10-post-Ubuntu-0ubuntu118.04.1
+# VM invoker: /usr/lib/jvm/java-11-openjdk-amd64/bin/java
+# VM options: -DREDIS_BENCHMARK_CONFIG=benchmark.properties
+# Blackhole mode: full + dont-inline hint (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 1 iterations, 10 s each
+# Measurement: 1 iterations, 1000 ms each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: com.redis.benchmark.RedisBenchmark.jedisSimpleSet
+
+# Run progress: 75.00% complete, ETA 00:00:09
+# Fork: N/A, test runs in the host VM
+# *** WARNING: Non-forked runs may silently omit JVM options, mess up profilers, disable compiler hints, etc. ***
+# *** WARNING: Use non-forked runs only for debugging purposes, not for actual performance runs. ***
+# Warmup Iteration   1:
+------------------- Setup
+0.125 ms/op
+Iteration   1:
+------------------- TearDown
+0.119 ms/op
+
+Result "com.redis.benchmark.RedisBenchmark.jedisSimpleSet":
+  0.119 ms/op
+
+
+# Run complete. Total time: 00:00:40
+
+REMEMBER: The numbers below are just data. To gain reusable insights, you need to follow up on
+why the numbers are the way they are. Use profilers (see -prof, -lprof), design factorial
+experiments, perform baseline and negative tests that provide experimental control, make sure
+the benchmarking environment is safe on JVM/OS/HW level, ask for reviews from the domain experts.
+Do not assume the numbers tell you what you want them to tell.
+
+Benchmark                       Mode  Cnt  Score   Error   Units
+RedisBenchmark.jedisSimpleSet  thrpt       7.960          ops/ms
+RedisBenchmark.jedisSimpleGet   avgt       0.119           ms/op
+RedisBenchmark.jedisSimpleSet   avgt       0.119           ms/op
+```
+</p>
+</details>
 
 ## [`jmh`](https://github.com/openjdk/jmh) command line options
 ```bash

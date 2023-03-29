@@ -18,9 +18,9 @@ public class RedisBenchmark {
     private static Integer jedisGetCount = 0;
     private static Integer jedisSetCount = 0;
 
-    @Setup
+    @Setup(Level.Trial)
     public void setup() {
-        System.out.println("------------------- Setup");
+        System.out.println("\n------------------- Setup");
 
         Util.createOneMillionOfKeys();
 
@@ -54,8 +54,8 @@ public class RedisBenchmark {
         return result;
     }
 
-    @TearDown
+    @TearDown(Level.Trial)
     public void tearDown() {
-        System.out.println("------------------- TearDown");
+        System.out.println("\n------------------- TearDown");
     }
 }

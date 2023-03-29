@@ -42,7 +42,7 @@ public final class JedisConnectionManagement {
             // Standalone
             if (hostAndPorts.size() == 1) {
                 for (HostAndPort hostAndPort : hostAndPorts) {
-                    unifiedJedis = new UnifiedJedis(new HostAndPort(hostAndPort.getHost(), hostAndPort.getPort()), jedisClientConfig);
+                    connectionManagement.unifiedJedis = new UnifiedJedis(new HostAndPort(hostAndPort.getHost(), hostAndPort.getPort()), jedisClientConfig);
                     break;
                 }
             }
@@ -58,7 +58,7 @@ public final class JedisConnectionManagement {
                 multiClusterJedisClientConfig.circuitBreakerSlidingWindowMinCalls(1);
                 provider = new MultiClusterPooledConnectionProvider(multiClusterJedisClientConfig.build());
 
-                unifiedJedis = new UnifiedJedis(provider);
+                connectionManagement.unifiedJedis = new UnifiedJedis(provider);
             }
         } catch (Exception e) {
             System.err.println("------------------- Failed UnifiedJedis " + e.getMessage());
