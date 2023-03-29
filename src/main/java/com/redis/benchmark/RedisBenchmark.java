@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 @BenchmarkMode({Mode.Throughput, Mode.AverageTime})
 @Warmup(iterations = 1)
 @Threads(1)
-@State(Scope.Thread)
+@State(Scope.Benchmark)
 @Measurement(iterations = 1, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class RedisBenchmark {
