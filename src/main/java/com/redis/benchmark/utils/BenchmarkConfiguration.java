@@ -27,9 +27,14 @@ public final class BenchmarkConfiguration {
                 System.err.println("\n\nERROR: Please create benchmark.properties and pass it as REDIS_BENCHMARK_CONFIG system property then execute the program!\n");
                 String sample = "Sample benchmark.properties:\n" +
                         "##############################################\n" +
-                        "redis.connection=127.0.0.1:6379,127.0.0.1:6380\n" +
-                        "redis.user=<Redis DB user or blank/default>\n" +
-                        "redis.password=<Redis DB password or blank if none>\n" +
+                        "#redis.connection=127.0.0.1:6379,127.0.0.1:6380\n" +
+                        "# In this configuration, we've set a sliding window size of 10 and a failure rate threshold of 50%.\n" +
+                        "# This means that a failover will be triggered if 5 out of any 10 calls to Redis fail.\n" +
+                        "#redis.connection.circuit.breaker.sliding.window.size=10\n" +
+                        "#redis.connection.circuit.breaker.sliding.window.min.calls=1\n" +
+                        "#redis.connection.circuit.breaker.failure.rate.threshold=50.0f\n" +
+                        "#redis.user=<Redis DB user or blank/default>\n" +
+                        "#redis.password=<Redis DB password or blank if none>\n" +
                         "benchmark.key.amount=1000\n" +
                         "benchmark.key.data=USAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSA\n" +
                         "##############################################\n";
@@ -44,22 +49,37 @@ public final class BenchmarkConfiguration {
 
     private String getConnectionString() {
         Properties properties = getProperties();
-        return properties.getProperty("redis.connection");
+        return properties.getProperty("redis.connection", "127.0.0.1:6379");
+    }
+
+    public String getConnectionCircuitBreakerSlidingWindowSize() {
+        Properties properties = getProperties();
+        return properties.getProperty("redis.connection.circuit.breaker.sliding.window.size", String.valueOf(10));
+    }
+
+    public String getConnectionCircuitBreakerSlidingWindowMinCalls() {
+        Properties properties = getProperties();
+        return properties.getProperty("redis.connection.circuit.breaker.sliding.window.min.calls", String.valueOf(1));
+    }
+
+    public String getConnectionCircuitBreakerFailureRateThreshold() {
+        Properties properties = getProperties();
+        return properties.getProperty("redis.connection.circuit.breaker.failure.rate.threshold", String.valueOf(50.0f));
     }
 
     public String getRedisUser() {
         Properties properties = getProperties();
-        return properties.getProperty("redis.user");
+        return properties.getProperty("redis.user", "default");
     }
 
     public String getRedisPassword() {
         Properties properties = getProperties();
-        return properties.getProperty("redis.password");
+        return properties.getProperty("redis.password", "");
     }
 
     String getKeyContentData() {
         Properties properties = getProperties();
-        return properties.getProperty("benchmark.key.data");
+        return properties.getProperty("benchmark.key.data", "USAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSA");
     }
 
     public Integer getAmountOfKeys() {
@@ -67,7 +87,7 @@ public final class BenchmarkConfiguration {
             return amountOfKeys;
         }
         Properties properties = getProperties();
-        amountOfKeys = Integer.parseInt(properties.getProperty("benchmark.key.amount"));
+        amountOfKeys = Integer.parseInt(properties.getProperty("benchmark.key.amount", String.valueOf(1000)));
         return amountOfKeys;
     }
 

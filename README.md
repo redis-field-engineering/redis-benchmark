@@ -21,6 +21,10 @@ benchmark.key.data=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 Sample benchmark.properties for multi-cluster Redis databases ([`Active-Active`](https://redis.com/redis-enterprise/technology/active-active-geo-distribution/) or [`Active-Passive`](https://redis.com/redis-enterprise/technology/active-passive-geo-distribution/)):
 ```properties
 redis.connection=redis-10422.c289.us-east-1-2.ec2.cloud.redislabs.com,redis-10422.c289.us-west-1-2.ec2.cloud.redislabs.com
+# In this configuration, we've set a sliding window size of 10 and a failure rate threshold of 50%. This means that a failover will be triggered if 5 out of any 10 calls to Redis fail.
+#redis.connection.circuit.breaker.sliding.window.size=10
+#redis.connection.circuit.breaker.sliding.window.min.calls=1
+#redis.connection.circuit.breaker.failure.rate.threshold=50.0f
 redis.user=<Redis DB user or blank/default>
 redis.password=<Redis DB password or blank if none>
 benchmark.key.amount=1000

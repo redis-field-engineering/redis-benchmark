@@ -54,8 +54,9 @@ public final class JedisConnectionManagement {
                     index++;
                 }
                 multiClusterJedisClientConfig = new MultiClusterJedisClientConfig.Builder(clusterJedisClientConfigs);
-                multiClusterJedisClientConfig.circuitBreakerSlidingWindowSize(5);
-                multiClusterJedisClientConfig.circuitBreakerSlidingWindowMinCalls(1);
+                multiClusterJedisClientConfig.circuitBreakerSlidingWindowSize(Integer.parseInt(BenchmarkConfiguration.get().getConnectionCircuitBreakerSlidingWindowSize()));
+                multiClusterJedisClientConfig.circuitBreakerSlidingWindowMinCalls(Integer.parseInt(BenchmarkConfiguration.get().getConnectionCircuitBreakerSlidingWindowMinCalls()));
+                multiClusterJedisClientConfig.circuitBreakerFailureRateThreshold(Float.parseFloat(BenchmarkConfiguration.get().getConnectionCircuitBreakerFailureRateThreshold()));
                 provider = new MultiClusterPooledConnectionProvider(multiClusterJedisClientConfig.build());
 
                 connectionManagement.unifiedJedis = new UnifiedJedis(provider);
