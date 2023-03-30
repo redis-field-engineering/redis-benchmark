@@ -409,3 +409,12 @@ Command line options usually take precedence over annotations.
 
   -h                          Display help, and exit.
 ````
+
+## Support
+
+redis-benchmark is supported by Redis, Inc. on a good faith effort basis.
+To report bugs, request features, or receive assistance, please [file an issue](https://github.com/redis-field-engineering/redis-benchmark/issues).
+
+## License
+
+redis-benchmark is licensed under the MIT License. Copyright (C) 2023 Redis, Inc.
