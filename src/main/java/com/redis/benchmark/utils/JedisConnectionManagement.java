@@ -8,18 +8,26 @@ import redis.clients.jedis.UnifiedJedis;
 import redis.clients.jedis.commands.JedisCommands;
 import redis.clients.jedis.MultiClusterJedisClientConfig;
 import redis.clients.jedis.providers.MultiClusterPooledConnectionProvider;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Set;
 
 public final class JedisConnectionManagement {
     private static final JedisConnectionManagement connectionManagement = new JedisConnectionManagement();
     private static Boolean connectionCreated = false;
     private UnifiedJedis unifiedJedis;
+    public static MultiClusterPooledConnectionProvider provider;
+    public static int firstActiveIndex;
+    public static String pidPath;
+    public static String pidFile;
+
 
     private JedisConnectionManagement() {
     }
 
     private void createJedisConnection() {
-        MultiClusterPooledConnectionProvider provider;
         MultiClusterJedisClientConfig.Builder multiClusterJedisClientConfig;
         Set<HostAndPort> hostAndPorts = BenchmarkConfiguration.get().getRedisHostAndPorts();
         int index = 0;
@@ -52,6 +60,13 @@ public final class JedisConnectionManagement {
                 provider = new MultiClusterPooledConnectionProvider(multiClusterJedisClientConfig.build());
 
                 connectionManagement.unifiedJedis = new UnifiedJedis(provider);
+
+                firstActiveIndex = Integer.parseInt(provider.getClusterCircuitBreaker().getName().split(":")[1]);
+                pidPath = System.getProperty("user.dir") + File.separator + "jedisPid" + File.separator;
+                pidFile = pidPath + firstActiveIndex + ".pid";
+                PidFile.create(Path.of(pidFile), true, firstActiveIndex);
+
+                FileEventListener.FILE_EVENT_LISTENER.start(pidPath, 1000);
             }
         } catch (Exception e) {
             System.err.println("------------------- Failed UnifiedJedis " + e.getMessage());
@@ -62,6 +77,9 @@ public final class JedisConnectionManagement {
         if (!connectionCreated) {
             connectionManagement.createJedisConnection();
             connectionCreated = Boolean.TRUE;
+        }
+        if (!Files.exists(Path.of(pidFile)) && !Files.isRegularFile(Path.of(pidFile))) {
+            provider.setActiveMultiClusterIndex(firstActiveIndex);
         }
         return connectionManagement.unifiedJedis;
     }
