@@ -28,9 +28,9 @@ public final class FileEventListener {
             @Override
             public void onFileCreate(File file) {
                 System.out.println("\nDetected file create event. File: " + file);
-                int failBackIndex = Integer.parseInt(file.getName().substring(0, 1));
-                firstActiveIndex = failBackIndex;
-                System.out.println("User have requested a fail-back event. Setting the active multi cluster index to " + failBackIndex);
+                int fallBackIndex = Integer.parseInt(file.getName().substring(0, 1));
+                firstActiveIndex = fallBackIndex;
+                System.out.println("User have requested to fallback to MultiClusterIndex " + fallBackIndex);
                 JedisConnectionManagement.provider.setActiveMultiClusterIndex(firstActiveIndex);
             }
 
