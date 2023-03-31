@@ -6,8 +6,6 @@ import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
 import org.apache.commons.io.monitor.FileAlterationMonitor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
 
-import static com.redis.benchmark.utils.JedisConnectionManagement.firstActiveIndex;
-
 public final class FileEventListener {
 
     public static final FileEventListener FILE_EVENT_LISTENER = new FileEventListener();
@@ -29,9 +27,8 @@ public final class FileEventListener {
             public void onFileCreate(File file) {
                 System.out.println("\nDetected file create event. File: " + file);
                 int fallBackIndex = Integer.parseInt(file.getName().substring(0, 1));
-                firstActiveIndex = fallBackIndex;
                 System.out.println("User have requested to fallback to MultiClusterIndex " + fallBackIndex);
-                JedisConnectionManagement.provider.setActiveMultiClusterIndex(firstActiveIndex);
+                JedisConnectionManagement.provider.setActiveMultiClusterIndex(fallBackIndex);
             }
 
             @Override
@@ -42,6 +39,9 @@ public final class FileEventListener {
             @Override
             public void onFileChange(File file) {
                 System.out.println("\nDetected file change event. File: " + file);
+                int fallBackIndex = Integer.parseInt(file.getName().substring(0, 1));
+                System.out.println("User have requested to fallback to MultiClusterIndex " + fallBackIndex);
+                JedisConnectionManagement.provider.setActiveMultiClusterIndex(fallBackIndex);
             }
         };
         observer.addListener(listener);

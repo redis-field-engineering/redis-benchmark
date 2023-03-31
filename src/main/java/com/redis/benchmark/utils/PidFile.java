@@ -84,7 +84,7 @@ public final class PidFile {
         return deleteOnExit;
     }
 
-    private static void addShutdownHook(final Path path) {
+    private static void addShutdownHook(Path path) {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
                 Files.deleteIfExists(path);

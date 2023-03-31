@@ -19,7 +19,7 @@ public final class JedisConnectionManagement {
     private static Boolean connectionCreated = false;
     private UnifiedJedis unifiedJedis;
     public static MultiClusterPooledConnectionProvider provider;
-    public static int firstActiveIndex;
+    public static int activeMultiClusterIndex;
     public static String pidPath;
     public static String pidFile;
 
@@ -61,10 +61,11 @@ public final class JedisConnectionManagement {
 
                 connectionManagement.unifiedJedis = new UnifiedJedis(provider);
 
-                firstActiveIndex = Integer.parseInt(provider.getClusterCircuitBreaker().getName().split(":")[1]);
+                activeMultiClusterIndex = Integer.parseInt(provider.getClusterCircuitBreaker().getName().split(":")[1]);
                 pidPath = System.getProperty("user.dir") + File.separator + "jedisPid" + File.separator;
-                pidFile = pidPath + firstActiveIndex + ".pid";
-                PidFile.create(Path.of(pidFile), true, firstActiveIndex);
+                pidFile = pidPath + activeMultiClusterIndex + ".pid";
+
+                PidFile.create(Path.of(pidFile), true, activeMultiClusterIndex);
 
                 FileEventListener.FILE_EVENT_LISTENER.start(pidPath, 1000);
             }
@@ -77,9 +78,6 @@ public final class JedisConnectionManagement {
         if (!connectionCreated) {
             connectionManagement.createJedisConnection();
             connectionCreated = Boolean.TRUE;
-        }
-        if (!Files.exists(Path.of(pidFile)) && !Files.isRegularFile(Path.of(pidFile))) {
-            provider.setActiveMultiClusterIndex(firstActiveIndex);
         }
         return connectionManagement.unifiedJedis;
     }
