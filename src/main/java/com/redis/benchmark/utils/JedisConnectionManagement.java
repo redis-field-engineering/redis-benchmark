@@ -10,7 +10,6 @@ import redis.clients.jedis.MultiClusterJedisClientConfig;
 import redis.clients.jedis.providers.MultiClusterPooledConnectionProvider;
 
 import java.io.File;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Set;
 
