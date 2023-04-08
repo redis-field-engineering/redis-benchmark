@@ -208,8 +208,8 @@ RedisBenchmark.jedisSimpleSet   avgt       0.119           ms/op
 </p>
 </details>
 
-#### Fallback Tests:
-The test framework creates a pid file with MultiClusterIndex under jedisPid folder in the current folder (user directory). If you need to fallback to another database endpoint from provided `redis.connection` comma separated list of endpoints, then move the pid file to that index (Indexes are ordered from 1 to however many endpoints you provide)
+#### FaILback Tests:
+The test framework creates a pid file with MultiClusterIndex under jedisPid folder in the current folder (user directory). If you need to failback to another database endpoint from provided `redis.connection` comma separated list of endpoints, then move the pid file to that index (Indexes are ordered from 1 to however many endpoints you provide)
 ````bash
 mv jedisPid/1.pid jedisPid/2.pid
 ````
@@ -220,7 +220,7 @@ Creating 618 of 100000 key(s) to the benchmark:  [.....] 0%
 Detected file delete event. File: /Users/viragtripathi/idea_workspace/redis-benchmark/jedisPid/1.pid
 
 Detected file create event. File: /Users/viragtripathi/idea_workspace/redis-benchmark/jedisPid/2.pid
-User have requested to fallback to MultiClusterIndex 2
+User have requested to failback to ActiveMultiClusterIndex=2
 Creating 623 of 100000 key(s) to the benchmark:  [.....] 0%[Thread-3] WARN redis.clients.jedis.providers.MultiClusterPooledConnectionProvider - CircuitBreaker changed the connection pool from 'cluster:1:127.0.0.1:14002' to 'cluster:2:127.0.0.1:14003'
 ````
 ````bash
@@ -232,7 +232,7 @@ Creating 1405 of 100000 key(s) to the benchmark:  [.....] 1%
 Detected file delete event. File: /Users/viragtripathi/idea_workspace/redis-benchmark/jedisPid/2.pid
 
 Detected file create event. File: /Users/viragtripathi/idea_workspace/redis-benchmark/jedisPid/3.pid
-User have requested to fallback to MultiClusterIndex 3
+User have requested to failback to ActiveMultiClusterIndex=3
 Creating 1410 of 100000 key(s) to the benchmark:  [.....] 1%[Thread-3] WARN redis.clients.jedis.providers.MultiClusterPooledConnectionProvider - CircuitBreaker changed the connection pool from 'cluster:2:127.0.0.1:14003' to 'cluster:3:127.0.0.1:14004'
 Creating 2691 of 100000 key(s) to the benchmark:  [.....] 2%
 ````
@@ -243,7 +243,7 @@ Expected output:
 ````log
 Creating 2691 of 100000 key(s) to the benchmark:  [.....] 2%
 Detected file create event. File: /Users/viragtripathi/idea_workspace/redis-benchmark/jedisPid/1.pid
-User have requested to fallback to MultiClusterIndex 1
+User have requested to failback to ActiveMultiClusterIndex=1
 Creating 2692 of 100000 key(s) to the benchmark:  [.....] 2%
 Detected file delete event. File: /Users/viragtripathi/idea_workspace/redis-benchmark/jedisPid/3.pid
 [Thread-3] WARN redis.clients.jedis.providers.MultiClusterPooledConnectionProvider - CircuitBreaker changed the connection pool from 'cluster:3:127.0.0.1:14004' to 'cluster:1:127.0.0.1:14002'

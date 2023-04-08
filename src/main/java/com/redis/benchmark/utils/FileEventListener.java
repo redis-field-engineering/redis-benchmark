@@ -26,9 +26,9 @@ public final class FileEventListener {
             @Override
             public void onFileCreate(File file) {
                 System.out.println("\nDetected file create event. File: " + file);
-                int fallBackIndex = Integer.parseInt(file.getName().substring(0, 1));
-                System.out.println("User have requested to fallback to MultiClusterIndex " + fallBackIndex);
-                JedisConnectionManagement.provider.setActiveMultiClusterIndex(fallBackIndex);
+                int activeClusterFailBackIndex = Integer.parseInt(file.getName().substring(0, 1));
+                System.out.println("User have requested to failback to ActiveMultiClusterIndex=" + activeClusterFailBackIndex);
+                JedisConnectionManagement.provider.setActiveMultiClusterIndex(activeClusterFailBackIndex);
             }
 
             @Override
@@ -39,9 +39,9 @@ public final class FileEventListener {
             @Override
             public void onFileChange(File file) {
                 System.out.println("\nDetected file change event. File: " + file);
-                int fallBackIndex = Integer.parseInt(file.getName().substring(0, 1));
-                System.out.println("User have requested to fallback to MultiClusterIndex " + fallBackIndex);
-                JedisConnectionManagement.provider.setActiveMultiClusterIndex(fallBackIndex);
+                int activeClusterFailBackIndex = Integer.parseInt(file.getName().substring(0, 1));
+                System.out.println("User have requested to failback to ActiveMultiClusterIndex=" + activeClusterFailBackIndex);
+                JedisConnectionManagement.provider.setActiveMultiClusterIndex(activeClusterFailBackIndex);
             }
         };
         observer.addListener(listener);

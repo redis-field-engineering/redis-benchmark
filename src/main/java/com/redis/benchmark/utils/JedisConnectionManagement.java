@@ -57,16 +57,9 @@ public final class JedisConnectionManagement {
                 multiClusterJedisClientConfig.circuitBreakerSlidingWindowMinCalls(Integer.parseInt(BenchmarkConfiguration.get().getConnectionCircuitBreakerSlidingWindowMinCalls()));
                 multiClusterJedisClientConfig.circuitBreakerFailureRateThreshold(Float.parseFloat(BenchmarkConfiguration.get().getConnectionCircuitBreakerFailureRateThreshold()));
                 provider = new MultiClusterPooledConnectionProvider(multiClusterJedisClientConfig.build());
+                provider.setClusterFailoverPostProcessor(a -> System.out.println("\nActiveMultiClusterIndex=" + a));
 
                 connectionManagement.unifiedJedis = new UnifiedJedis(provider);
-
-                activeMultiClusterIndex = Integer.parseInt(provider.getClusterCircuitBreaker().getName().split(":")[1]);
-                pidPath = System.getProperty("user.dir") + File.separator + "jedisPid" + File.separator;
-                pidFile = pidPath + activeMultiClusterIndex + ".pid";
-
-                PidFile.create(Path.of(pidFile), true, activeMultiClusterIndex);
-
-                FileEventListener.FILE_EVENT_LISTENER.start(pidPath, 1000);
             }
         } catch (Exception e) {
             System.err.println("------------------- Failed UnifiedJedis " + e.getMessage());
@@ -77,6 +70,17 @@ public final class JedisConnectionManagement {
         if (!connectionCreated) {
             connectionManagement.createJedisConnection();
             connectionCreated = Boolean.TRUE;
+
+            activeMultiClusterIndex = Integer.parseInt(provider.getClusterCircuitBreaker().getName().split(":")[1]);
+            pidPath = System.getProperty("user.dir") + File.separator + "jedisPid" + File.separator;
+            pidFile = pidPath + activeMultiClusterIndex + ".pid";
+
+            try {
+                PidFile.create(Path.of(pidFile), true, activeMultiClusterIndex);
+                FileEventListener.FILE_EVENT_LISTENER.start(pidPath, 1000);
+            } catch (Exception e) {
+                System.err.println("------------------- Failed " + e.getMessage());
+            }
         }
         return connectionManagement.unifiedJedis;
     }
