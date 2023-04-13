@@ -37,6 +37,15 @@ public final class BenchmarkConfiguration {
                         "#redis.password=<Redis DB password or blank if none>\n" +
                         "benchmark.key.amount=1000\n" +
                         "benchmark.key.data=USAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSA\n" +
+                        "#mail.alert.enabled=false\n" +
+                        "#mail.smtp.host=smtp.gmail.com\n" +
+                        "#mail.smtp.port=587\n" +
+                        "#mail.smtp.start.tls.enable=true\n" +
+                        "#mail.smtp.start.tls.required=false\n" +
+                        "#mail.to=\n" +
+                        "#mail.smtp.username=\n" +
+                        "#mail.smtp.password=\n" +
+                        "#mail.debug=false" +
                         "##############################################\n";
                 System.out.println(sample);
                 System.exit(1);
@@ -80,6 +89,51 @@ public final class BenchmarkConfiguration {
     String getKeyContentData() {
         Properties properties = getProperties();
         return properties.getProperty("benchmark.key.data", "USAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSAUSA");
+    }
+
+    public Boolean isMailAlertEnabled() {
+        Properties properties = getProperties();
+        return Boolean.valueOf(properties.getProperty("mail.alert.enabled", String.valueOf(false)));
+    }
+
+    public String getMailSmtpHost() {
+        Properties properties = getProperties();
+        return properties.getProperty("mail.smtp.host", "smtp.gmail.com");
+    }
+
+    public Integer getMailSmtpPort() {
+        Properties properties = getProperties();
+        return Integer.valueOf(properties.getProperty("mail.smtp.port", String.valueOf(587)));
+    }
+
+    public String getMailSmtpUserName() {
+        Properties properties = getProperties();
+        return properties.getProperty("mail.smtp.username");
+    }
+
+    public String getMailSmtpPassword() {
+        Properties properties = getProperties();
+        return properties.getProperty("mail.smtp.password");
+    }
+
+    public String getMailTo() {
+        Properties properties = getProperties();
+        return properties.getProperty("mail.to");
+    }
+
+    public Boolean isMailSmtpStartTLSEnabled() {
+        Properties properties = getProperties();
+        return Boolean.valueOf(properties.getProperty("mail.smtp.start.tls.enable", String.valueOf(true)));
+    }
+
+    public Boolean isMailSmtpStartTLSRequired() {
+        Properties properties = getProperties();
+        return Boolean.valueOf(properties.getProperty("mail.smtp.start.tls.required", String.valueOf(false)));
+    }
+
+    public Boolean isMailDebug() {
+        Properties properties = getProperties();
+        return Boolean.valueOf(properties.getProperty("mail.debug", String.valueOf(false)));
     }
 
     public Integer getAmountOfKeys() {

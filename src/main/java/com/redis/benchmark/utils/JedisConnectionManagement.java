@@ -57,7 +57,11 @@ public final class JedisConnectionManagement {
                 multiClusterJedisClientConfig.circuitBreakerSlidingWindowMinCalls(Integer.parseInt(BenchmarkConfiguration.get().getConnectionCircuitBreakerSlidingWindowMinCalls()));
                 multiClusterJedisClientConfig.circuitBreakerFailureRateThreshold(Float.parseFloat(BenchmarkConfiguration.get().getConnectionCircuitBreakerFailureRateThreshold()));
                 provider = new MultiClusterPooledConnectionProvider(multiClusterJedisClientConfig.build());
-                provider.setClusterFailoverPostProcessor(a -> System.out.println("\nActiveMultiClusterIndex=" + a));
+
+                // Optional post processor to register a custom callback
+                //provider.setClusterFailoverPostProcessor(a -> System.out.println("\nActiveMultiClusterIndex=" + a));
+                EmailAlertUtils emailAlertUtils = new EmailAlertUtils();
+                provider.setClusterFailoverPostProcessor(emailAlertUtils);
 
                 connectionManagement.unifiedJedis = new UnifiedJedis(provider);
             }
