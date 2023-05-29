@@ -3,10 +3,10 @@ package com.redis.benchmark.utils;
 import redis.clients.jedis.DefaultJedisClientConfig;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisClientConfig;
-import redis.clients.jedis.MultiClusterJedisClientConfig.ClusterJedisClientConfig;
+import redis.clients.jedis.MultiClusterClientConfig.ClusterConfig;
 import redis.clients.jedis.UnifiedJedis;
 import redis.clients.jedis.commands.JedisCommands;
-import redis.clients.jedis.MultiClusterJedisClientConfig;
+import redis.clients.jedis.MultiClusterClientConfig;
 import redis.clients.jedis.providers.MultiClusterPooledConnectionProvider;
 
 import java.io.File;
@@ -27,7 +27,7 @@ public final class JedisConnectionManagement {
     }
 
     private void createJedisConnection() {
-        MultiClusterJedisClientConfig.Builder multiClusterJedisClientConfig;
+        MultiClusterClientConfig.Builder multiClusterJedisClientConfig;
         Set<HostAndPort> hostAndPorts = BenchmarkConfiguration.get().getRedisHostAndPorts();
         int index = 0;
 
@@ -47,12 +47,12 @@ public final class JedisConnectionManagement {
             }
             // Multi cluster
             if (hostAndPorts.size() > 1) {
-                ClusterJedisClientConfig[] clusterJedisClientConfigs = new ClusterJedisClientConfig[hostAndPorts.size()];
+                ClusterConfig[] clusterJedisClientConfigs = new ClusterConfig[hostAndPorts.size()];
                 for (HostAndPort hostAndPort : hostAndPorts) {
-                    clusterJedisClientConfigs[index] = new ClusterJedisClientConfig(new HostAndPort(hostAndPort.getHost(), hostAndPort.getPort()), jedisClientConfig);
+                    clusterJedisClientConfigs[index] = new ClusterConfig(new HostAndPort(hostAndPort.getHost(), hostAndPort.getPort()), jedisClientConfig);
                     index++;
                 }
-                multiClusterJedisClientConfig = new MultiClusterJedisClientConfig.Builder(clusterJedisClientConfigs);
+                multiClusterJedisClientConfig = new MultiClusterClientConfig.Builder(clusterJedisClientConfigs);
                 multiClusterJedisClientConfig.circuitBreakerSlidingWindowSize(Integer.parseInt(BenchmarkConfiguration.get().getConnectionCircuitBreakerSlidingWindowSize()));
                 multiClusterJedisClientConfig.circuitBreakerSlidingWindowMinCalls(Integer.parseInt(BenchmarkConfiguration.get().getConnectionCircuitBreakerSlidingWindowMinCalls()));
                 multiClusterJedisClientConfig.circuitBreakerFailureRateThreshold(Float.parseFloat(BenchmarkConfiguration.get().getConnectionCircuitBreakerFailureRateThreshold()));
