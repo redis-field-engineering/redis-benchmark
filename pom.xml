@@ -36,7 +36,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jmh.version>1.36</jmh.version>
-        <jedis.version>5.0.0-SNAPSHOT</jedis.version>
+        <jedis.version>5.0.0-beta2</jedis.version>
         <jreleaser.version>1.3.1</jreleaser.version>
         <resilience4j.version>1.7.1</resilience4j.version>
         <slf4j.version>1.7.36</slf4j.version>

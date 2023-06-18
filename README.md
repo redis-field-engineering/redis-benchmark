@@ -101,7 +101,7 @@ redis.clients.jedis.exceptions.JedisConnectionException: java.net.SocketTimeoutE
 	at redis.clients.jedis.executors.CircuitBreakerCommandExecutor.executeCommand(CircuitBreakerCommandExecutor.java:55)
 	at redis.clients.jedis.UnifiedJedis.executeCommand(UnifiedJedis.java:180)
 	at redis.clients.jedis.UnifiedJedis.get(UnifiedJedis.java:602)
-	at com.redis.benchmark.utils.Util.createOneMillionOfKeys(Util.java:15)
+	at createOneMillionStringKeysKeys(Util.java:15)
 	at com.redis.benchmark.RedisBenchmark.setup(RedisBenchmark.java:25)
 	at com.redis.benchmark.jmh_generated.RedisBenchmark_jedisSimpleGet_jmhTest._jmh_tryInit_f_redisbenchmark0_0(RedisBenchmark_jedisSimpleGet_jmhTest.java:338)
 	at com.redis.benchmark.jmh_generated.RedisBenchmark_jedisSimpleGet_jmhTest.jedisSimpleGet_Throughput(RedisBenchmark_jedisSimpleGet_jmhTest.java:71)

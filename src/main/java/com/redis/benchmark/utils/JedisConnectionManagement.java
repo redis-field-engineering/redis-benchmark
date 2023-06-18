@@ -1,17 +1,15 @@
 package com.redis.benchmark.utils;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.util.Set;
 import redis.clients.jedis.DefaultJedisClientConfig;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisClientConfig;
 import redis.clients.jedis.MultiClusterClientConfig.ClusterConfig;
 import redis.clients.jedis.UnifiedJedis;
-import redis.clients.jedis.commands.JedisCommands;
 import redis.clients.jedis.MultiClusterClientConfig;
 import redis.clients.jedis.providers.MultiClusterPooledConnectionProvider;
-
-import java.io.File;
-import java.nio.file.Path;
-import java.util.Set;
 
 public final class JedisConnectionManagement {
     private static final JedisConnectionManagement connectionManagement = new JedisConnectionManagement();
@@ -70,7 +68,7 @@ public final class JedisConnectionManagement {
         }
     }
 
-    public static JedisCommands getCommands() {
+    public static UnifiedJedis getCommands() {
         if (!connectionCreated) {
             connectionManagement.createJedisConnection();
             connectionCreated = Boolean.TRUE;

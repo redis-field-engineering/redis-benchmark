@@ -1,6 +1,6 @@
 package com.redis.benchmark.utils;
 
-import redis.clients.jedis.commands.JedisCommands;
+import redis.clients.jedis.UnifiedJedis;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
 public final class Util {
@@ -10,8 +10,8 @@ public final class Util {
     private Util() {
     }
 
-    public static void createOneMillionOfKeys() {
-        JedisCommands commands = JedisConnectionManagement.getCommands();
+    public static void createOneMillionStringKeys() {
+        UnifiedJedis commands = JedisConnectionManagement.getCommands();
         String keysCreated = commands.get(BenchmarkKeysCreated);
         if (keysCreated != null && keysCreated.equals("y")) {
             return;

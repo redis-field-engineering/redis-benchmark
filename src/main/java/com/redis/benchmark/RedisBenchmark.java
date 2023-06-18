@@ -3,9 +3,20 @@ package com.redis.benchmark;
 import com.redis.benchmark.utils.BenchmarkConfiguration;
 import com.redis.benchmark.utils.JedisConnectionManagement;
 import com.redis.benchmark.utils.Util;
-import org.openjdk.jmh.annotations.*;
-import redis.clients.jedis.commands.JedisCommands;
 import java.util.concurrent.TimeUnit;
+import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Mode;
+import org.openjdk.jmh.annotations.Warmup;
+import org.openjdk.jmh.annotations.Threads;
+import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.Measurement;
+import org.openjdk.jmh.annotations.OutputTimeUnit;
+import org.openjdk.jmh.annotations.Setup;
+import org.openjdk.jmh.annotations.Level;
+import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.TearDown;
+import redis.clients.jedis.UnifiedJedis;
 
 @BenchmarkMode({Mode.Throughput, Mode.AverageTime})
 @Warmup(iterations = 1)
@@ -14,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 @Measurement(iterations = 1, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class RedisBenchmark {
-    private static JedisCommands jedisCommands;
+    private static UnifiedJedis jedisCommands;
     private static Integer jedisGetCount = 0;
     private static Integer jedisSetCount = 0;
 
@@ -22,7 +33,7 @@ public class RedisBenchmark {
     public void setup() {
         System.out.println("\n------------------- Setup");
 
-        Util.createOneMillionOfKeys();
+        Util.createOneMillionStringKeys();
 
         jedisCommands = JedisConnectionManagement.getCommands();
     }
