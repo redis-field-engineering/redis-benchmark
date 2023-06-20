@@ -1,6 +1,6 @@
 # redis-benchmark
 
-Benchmark and/or load test Redis using Java client libraries such as [`jedis`](https://github.com/redis/jedis/pull/3310), [`lettuce`](https://github.com/lettuce-io/lettuce-core) (TBD) etc. You can run this utility with Standalone Redis database or Geo-distributed Redis databases i.e. [`Active-Active`](https://redis.com/redis-enterprise/technology/active-active-geo-distribution/) or [`Active-Passive`](https://redis.com/redis-enterprise/technology/active-passive-geo-distribution/).
+Benchmark and/or load test Redis using Java client libraries such as [`jedis`](https://github.com/redis/jedis), [`lettuce`](https://github.com/lettuce-io/lettuce-core) (TBD) etc. You can run this utility with Standalone Redis database or Geo-distributed Redis databases i.e. [`Active-Active`](https://redis.com/redis-enterprise/technology/active-active-geo-distribution/) or [`Active-Passive`](https://redis.com/redis-enterprise/technology/active-passive-geo-distribution/).
 
 ## Prerequisites
 Java Runtime Environment ([OpenJRE](https://openjdk.java.net/install/) or OracleJRE) 11+
