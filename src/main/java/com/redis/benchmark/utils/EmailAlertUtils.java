@@ -1,14 +1,12 @@
 package com.redis.benchmark.utils;
 
+import java.util.HashMap;
+import java.util.StringTokenizer;
+import java.util.function.Consumer;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.ImageHtmlEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.StringTokenizer;
-import java.util.function.Consumer;
-
 
 public final class EmailAlertUtils implements Consumer<String> {
     private static final Logger LOGGER = LoggerFactory.getLogger(EmailAlertUtils.class);
@@ -45,7 +43,7 @@ public final class EmailAlertUtils implements Consumer<String> {
                 LOGGER.debug("Sent an email alert to {}", to);
 
         } catch (Exception e) {
-            LOGGER.error("Failed during {} {}", WHOAMI, e);
+            LOGGER.error("Failed during {} {}", WHOAMI, e.getMessage());
         }
     }
 
